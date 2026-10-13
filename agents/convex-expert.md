@@ -188,7 +188,7 @@ Hitting a limit = redesign, not retry. Paginate (`paginationOptsValidator` + `.p
     providers: [{ domain: process.env.CONVEX_SITE_URL, applicationID: "convex" }],
   };
   ```
-- **Convex Auth needs `JWT_PRIVATE_KEY` / `JWKS` / `SITE_URL` set on the deployment** — and these are **per-deployment: they do NOT carry from dev to prod.** Set them again on prod with/before the first prod deploy. Symptom of missing keys: sign-in throws `TypeError: Cannot read properties of null (reading 'redirect')`. Generate/set via `npx @convex-dev/auth --skip-git-check --web-server-url <url>`. When setting a multi-line PEM by hand, pass it as `"$(cat key.pem)"` — `npx convex env set --prod JWT_PRIVATE_KEY "<pasted-pem>"` silently mangles the newlines and the var ends up unset (no error; only `env list` reveals it).
+- **Convex Auth needs `JWT_PRIVATE_KEY` / `JWKS` / `SITE_URL` set on the deployment** — and these are **per-deployment: they do NOT carry from dev to prod.** Set them again on prod with/before the first prod deploy. Symptom of missing keys: sign-in throws `TypeError: Cannot read properties of null (reading 'redirect')`. Generate/set via `npx @convex-dev/auth --skip-git-check --web-server-url <url>`. When setting a multi-line PEM by hand, pass it as `"$(cat key.pem)"` — `npx convex env set --prod JWT_PRIVATE_KEY "<pasted-pem>"` silently mangles the newlines and the var ends up unset (no error; only `npx convex env list --names-only` reveals it).
 
 ### File storage
 
