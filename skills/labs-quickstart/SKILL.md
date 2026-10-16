@@ -1,18 +1,17 @@
 ---
 name: "labs-quickstart"
-description: "LABS — the FULL Convex quickstart: scaffold a Next.js + shadcn app from one sentence with passkey sign-in and an in-app feedback panel pre-baked, build it live, then PUBLISH to a public convex.app URL (with the user's confirmation)."
-when_to_use: "TRIGGER when starting a NEW Convex app and the ask includes publishing/a public URL, sign-in/passkeys, or the feedback panel — or the user ran `/labs-quickstart` or asked for the 'full'/'labs' quickstart. SKIP for a plain local scaffold (use `quickstart`) or when a Convex project already exists in the cwd."
+description: "LABS — scaffold a running Next.js + shadcn Convex app with passkey sign-in and a live Chef feedback panel, then build and verify it locally. TRIGGER for the full/labs quickstart, passkeys, or the feedback panel in a new app. For a plain scaffold use quickstart. Legacy convex.app publishing is retired; use a separate hosting workflow if requested. SKIP when a Convex project already exists in the cwd."
+when_to_use: "TRIGGER for a NEW Convex app with passkeys or the feedback panel, or an explicit /labs-quickstart request. SKIP for a plain local scaffold (use quickstart) or an existing Convex project."
 license: "Apache-2.0"
 ---
 
-# Convex Labs Quickstart — full wow-shell, built live, published
+# Convex Labs Quickstart — build locally with passkeys and feedback
 
 The **full** quickstart experience (labs): a running Next.js + shadcn "wow-shell"
 Convex app from one sentence, with **passkey sign-in** and the **Chef feedback
-panel** pre-baked, built live in front of the user — and, once v1 works and **the
-user confirms**, **published to a public `https://<app>.convex.app` URL**.
+panel** pre-baked, built live in front of the user on localhost.
 
-> Want just a plain, local-only scaffold (no login, no panel, no publishing)?
+> Want just a plain, local-only scaffold (no login, no panel)?
 > That's the **`quickstart`** skill — use it instead.
 
 > **You are reading this skill right now — its full instructions are below.** Do NOT
@@ -23,7 +22,7 @@ user confirms**, **published to a public `https://<app>.convex.app` URL**.
 
 ## Degradation rule — when the scaffold can't run, write code, not ceremony
 
-If the bootstrap can't run — a non-interactive/one-shot session, no network access, a sandboxed temp dir, or the user just wants code rather than a running app — **don't wait on the scaffold or the panel/publish machinery**. Write a standard Convex project directly:
+If the bootstrap can't run — a non-interactive/one-shot session, no network access, a sandboxed temp dir, or the user just wants code rather than a running app — **don't wait on the scaffold or the panel/passkey machinery**. Write a standard Convex project directly:
 
 - **ALL backend code goes under `convex/`** (`schema.ts`, queries, mutations, actions) — **NEVER at the project root.** Convex functions only run from the `convex/` directory.
 - **Write ZERO scaffold/documentation files** unless explicitly asked — no `START_HERE.md`, `ARCHITECTURE.md`, `MANIFEST.txt`, or README walls. "Build me a backend" is a request for code, not a design-doc package.
@@ -83,9 +82,8 @@ If the download itself is denied, ask the user to approve it rather than
 hand-scaffolding: it is the canonical scaffolder and the flow depends on it.
 
 ```bash
-# [telemetry 2/3] run WITH the slug — LABS = the FULL profile (passkeys + Chef
-# feedback panel + *.convex.app publishing), EXCEPT custom domains (QB_DOMAIN=0).
-QB_PROFILE=full QB_DOMAIN=0 QB_ARGS_BASE="$BASE" QB_FEEDBACK_URL="$BASE/feedback" bash /tmp/convex-qb.sh "$(cat /tmp/convex-qb-slug 2>/dev/null)"
+# Keep passkeys and the Chef feedback panel enabled for local development.
+QB_PROFILE=full QB_PUBLISH=0 QB_VERSION=0 QB_DOMAIN=0 QB_ARGS_BASE="$BASE" QB_FEEDBACK_URL="$BASE/feedback" bash /tmp/convex-qb.sh "$(cat /tmp/convex-qb-slug 2>/dev/null)"
 ```
 
 Poll `.quickstart-bootstrap.log` until it contains `BOOTSTRAP_COMPLETE` (~45–120s).
@@ -107,9 +105,10 @@ log-watcher details. **It uses its own section names** (e.g. `## End-to-end runb
 this skill's exact labels as a failed fetch. Follow it, plus STEP A0 here. (The same
 runbook is also printed to the tail of `.quickstart-bootstrap.log` from the
 `═══ STEP A` marker onward — a fine fallback if WebFetch is unavailable, though
-WebFetching the URL is what fires the telemetry-3 signal, so prefer it. One
-exception: this labs release keeps **custom domains OFF** — if the runbook mentions
-offering/registering domains or `.quickstart-domains.json`, skip that part.)
+WebFetching the URL is what fires the telemetry-3 signal, so prefer it. The
+retirement rule below takes precedence over any publishing instructions in the
+fetched runbook or bootstrap log. Custom domains also stay OFF: skip domain
+offers, registration, and `.quickstart-domains.json`.)
 
 
 ## 3. Open the browser
@@ -209,7 +208,7 @@ Notes that matter:
   If the feature needs a genuinely verified email, add an out-of-band step
   (OTP / magic link).
 - Passkeys require a **secure context** — `http://localhost` counts, so local dev
-  works. Publishing (STEP C) rebinds the passkey env vars to the `.convex.app` origin.
+  works. Keep the passkey env vars bound to the local browser origin during development.
 - **Verify it compiled before moving on:** watch `.quickstart-logs/convex-errors.log` and
   `.quickstart-logs/next-errors.log`. Don't advance the todo until both logs are clean and the
   running page renders the sign-in UI.
@@ -246,70 +245,15 @@ Pre-yield checklist: `npx tsc --noEmit` clean, error logs re-read and clean,
 `metadata.title` names *this* app, and the running page shows the passkey sign-in UI
 and (after you register a test passkey) the authed view.
 
+## Hosting after the local build
 
-## STEP C — publish to *.convex.app (ASK THE USER FIRST)
+The legacy `*.convex.app` publishing gateway is retired. Do not download or run
+`publish-convex-app.mjs`, call `/hosting/deploy`, or follow legacy publishing
+instructions from the served runbook. `QB_PUBLISH=0 QB_VERSION=0` disables staging
+the publisher and its version banner during bootstrap.
 
-When v1 works, **offer to publish** — do not publish silently, and don't treat it as
-mandatory:
-
-> "v1 is working locally. Want me to publish it to a public
->  `https://<app>.convex.app` URL anyone can open?"
-
-Publish **only on a clear yes**. On a no, the app keeps running locally — done.
-
-This publishes the static site to `https://<app>.convex.app` through the hosting
-**gateway** (build → zip → moderated upload). `<app>` = your deployment name (the
-subdomain of `NEXT_PUBLIC_CONVEX_URL`). The passkey **auth HTTP routes stay on the
-deployment's `*.convex.site`**; only the page moves to `*.convex.app`. WebAuthn is
-origin-bound, so the passkey env vars must point at the **`.convex.app` page
-origin**, not `.convex.site`.
-
-**1. Rebind auth env vars to the `.convex.app` page origin.** Use the `NAME=VALUE`
-form (never `env set NAME "$VALUE"` — a value starting with `-` parses as a flag).
-For a dev-deployment trial omit `--prod`; for prod add `--prod`, export a
-`CONVEX_DEPLOY_KEY`, and set fresh `JWT_PRIVATE_KEY`/`JWKS` on it too (the runbook
-has the key-gen snippet):
-
-```bash
-npx convex env set "SITE_URL=https://<app>.convex.app"
-npx convex env set "AUTH_PASSKEY_RP_ID=<app>.convex.app"        # the page's host — NOT .convex.site
-npx convex env set "AUTH_PASSKEY_ORIGIN=https://<app>.convex.app"
-```
-
-A passkey is bound to its RP ID; it MUST equal the host the page is served from
-(`<app>.convex.app`) even though the auth endpoints live on `<app>.convex.site`. A
-mismatch means registration/sign-in fails.
-
-**2. Next.js static export** — `next.config.ts` is exactly:
-```ts
-import type { NextConfig } from "next";
-const nextConfig: NextConfig = { output: "export", images: { unoptimized: true } };
-export default nextConfig;
-```
-⚠️ **Never silence the linter or type-checker to force a build** (`eslint.ignoreDuringBuilds`
-is also removed in Next 16, so it errors). Fix the real cause. Export emits to **`out/`**; the
-client env var is **`NEXT_PUBLIC_CONVEX_URL`**.
-
-**3. Push the backend, then publish through the gateway.** No
-`@convex-dev/static-hosting` component is needed — serving is the gateway's job. Keep
-`auth.addHttpRoutes(http)` in `convex/http.ts` as-is:
-
-```bash
-npx convex deploy                      # for a dev trial, the running `convex dev` already pushed — skip
-curl -fsSL https://basic-anteater-667.convex.site/publish-convex-app -o publish-convex-app.mjs
-npm install -D fflate
-node publish-convex-app.mjs            # build → zip out/ → moderated gateway upload
-```
-
-It prints `https://<app>.convex.app` — pass it back to the user. **If the gateway
-returns 403 (content moderation),** it prints the reasons. A legitimate app sign-in
-page should pass; report a false positive to the user, don't evade it.
-
-**4. Verify the passkey ceremony works cross-origin** — page on `.convex.app`, auth
-API on `.convex.site`. Open the URL, register a passkey, confirm the authed view
-loads. If registration fails with an RP-ID / origin error, the three env vars in
-step 1 don't match the `.convex.app` host — fix them and re-publish.
-
-**Custom domains are NOT part of this release** — don't brainstorm, offer, or
-register domains, and don't look for `.quickstart-domains.json`. (If the user
-already owns a domain and asks to wire it, that's the separate `domains` skill.)
+Finish by verifying the app on localhost. If the user asks for a public frontend,
+use the `add` skill's `hosting` workflow (`@convex-dev/static-hosting`, serving at
+`*.convex.site`) or a frontend hosting provider they choose. Configure `SITE_URL`,
+`AUTH_PASSKEY_ORIGIN` for the frontend URL and `AUTH_PASSKEY_RP_ID` for its
+hostname; verify passkey registration and sign-in there.
