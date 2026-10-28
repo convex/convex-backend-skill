@@ -386,7 +386,7 @@ For higher-level patterns, install **Convex Components** instead of writing them
 
 Hand-rolling a `messages` table plus a one-shot `Anthropic.messages.create(...)` action when the app genuinely needs threads, history, tool calls, and retries is the "AI slop" pattern `@convex-dev/agent` exists to prevent. Reach for it when you need those.
 
-<!-- AGENT-STREAMING-INTERIM: revert this block when get-convex/agent#295 ships `listUIMessagesWithStreams`. The component's streaming query does not type-check from scratch today (TS2719 on `vStreamMessagesReturnValue`), so we do NOT force it for a plain streaming chat; once #295 releases, restore "any chat panel or LLM call starts with @convex-dev/agent" as the default. -->
+<!-- AGENT-STREAMING-INTERIM: revert this block when convex/agent#295 ships `listUIMessagesWithStreams`. The component's streaming query does not type-check from scratch today (TS2719 on `vStreamMessagesReturnValue`), so we do NOT force it for a plain streaming chat; once #295 releases, restore "any chat panel or LLM call starts with @convex-dev/agent" as the default. -->
 For a **simple streaming chat** (one thread, tokens streamed in), build it directly: a `messages` table plus an action that streams the model's tokens into it, read by a reactive query. Today that is more reliable than the component's streaming wiring. Use `@convex-dev/agent` when the app is genuinely agentic (multiple threads, tools, RAG). Canonical `@convex-dev/agent` wiring for those:
 
 ```typescript
