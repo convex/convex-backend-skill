@@ -2,7 +2,7 @@
   "name": "convex",
   "owner": {
     "name": "Convex",
-    "url": "https://github.com/get-convex"
+    "url": "https://github.com/convex"
   },
   "metadata": {
     "description": "Convex-maintained Claude Code plugin marketplace entry for the official Convex plugin",
@@ -18,8 +18,8 @@
         "name": "Convex",
         "url": "https://convex.dev"
       },
-      "homepage": "https://github.com/get-convex/convex-backend-skill",
-      "repository": "https://github.com/get-convex/convex-backend-skill",
+      "homepage": "https://github.com/convex/convex-backend-skill",
+      "repository": "https://github.com/convex/convex-backend-skill",
       "license": "Apache-2.0",
       "keywords": [
         "convex",
