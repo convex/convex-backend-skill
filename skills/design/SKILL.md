@@ -547,11 +547,25 @@ A single function call is bounded. Knowing the ceilings keeps you from accidenta
 
 Auth wiring is the single most common place to bring outdated patterns. The right shape on Convex:
 
-- **Use a provider, not a session table.** Convex Auth (built-in; `Password` is zero-touch, `OAuth` needs only the provider's client ID/secret in env vars), or WorkOS AuthKit. Never write `sessions`, `accounts`, `oauth_tokens`, or `users.passwordHash` tables yourself.
-- **Auth lives at the function boundary, not in the database.** Every function that needs the user calls a tiny helper:
+- **Use a provider, not a session table.** Use Convex Auth (built in; each sign-in method is its own component, and the docs list the current ones) or WorkOS AuthKit. Never write `sessions`, `accounts`, `oauth_tokens`, or `users.passwordHash` tables yourself. Convex Auth's API has changed across versions, so set it up from the `auth` skill and https://docs.convex.dev/auth/convex-auth/, not from memory.
+- **Auth lives at the function boundary, not in the database.** Every function that needs the user calls a tiny helper. With Convex Auth, that helper is `getAuthUserId`:
 
 ```typescript
-// convex/lib/auth.ts
+// convex/lib/auth.ts — Convex Auth
+import { getAuthUserId } from "@convex-dev/auth/server";
+import { QueryCtx, MutationCtx } from "../_generated/server";
+
+export async function getAuthedUserId(ctx: QueryCtx | MutationCtx) {
+  const userId = await getAuthUserId(ctx);
+  if (userId === null) throw new Error("Not authenticated");
+  return userId; // Id<"users">
+}
+```
+
+With WorkOS or another external provider, look the user up by `tokenIdentifier`:
+
+```typescript
+// convex/lib/auth.ts — WorkOS / external provider
 import { QueryCtx, MutationCtx } from "../_generated/server";
 
 export async function getAuthedUserId(ctx: QueryCtx | MutationCtx) {
@@ -566,10 +580,10 @@ export async function getAuthedUserId(ctx: QueryCtx | MutationCtx) {
 }
 ```
 
-- **The `users` table is thin.** `{ name, email, tokenIdentifier }` plus app-specific fields. On first sign-in, upsert by `tokenIdentifier`.
+- **The `users` table is thin.** With Convex Auth, its `createUser` callback inserts the row, and identity data such as usernames and verified emails stays in the Convex Auth components (read it through the components, as the docs show), so add only your app's own fields. With an external provider, store `{ name, email, tokenIdentifier }` plus app-specific fields and upsert by `tokenIdentifier` on first sign-in.
 - **Multi-tenancy goes here too.** If you're building for teams/workspaces, every shared table gets a `workspaceId: v.id("workspaces")` and every function checks membership.
 
-The common `TypeError: Cannot read properties of null (reading 'redirect')` from `@convex-dev/auth` means `JWT_PRIVATE_KEY` / `JWKS` / `SITE_URL` env vars aren't set on the deployment. Run `npx @convex-dev/auth --skip-git-check --web-server-url http://localhost:3000` to generate them.
+Convex Auth needs no `JWT_PRIVATE_KEY`, `JWKS`, or `npx @convex-dev/auth` setup step; the deployment signs its own tokens. If you find those in an app, it uses the older Convex Auth API. Leave that working setup alone unless the user asks to change it; to move it over, follow the migration guides in the docs (https://docs.convex.dev/auth/convex-auth/).
 
 ## Watching the Logs (don't declare done from a single tail)
 
