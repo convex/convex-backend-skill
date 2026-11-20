@@ -606,6 +606,7 @@ Patterns worth recognizing immediately:
 - **`OCC conflict`** — two mutations stomped on the same doc. If frequent, split the hot write or use `@convex-dev/aggregate`.
 - **`IndexNameReserved`** — you tried to name an index `by_id` or `by_creation_time`, or started one with `_`. Rename it.
 - **`use node`** — you imported a Node-only module into a default V8 file. Add `"use node";` at the top of the file (and only put pure-Node actions there).
+- **`Total module size exceeded the unzipped maximum`** (`ModulesTooLarge`) — the deployment's code is over Convex's code size limit. Use the `bundle-size` skill to find and cut what's bloating it.
 
 **Never declare a feature "done" after a single one-shot tail.** The errors that bite are the ones that surface *after* you mark something complete — re-tail right before reporting AND again after any user-visible interaction.
 
