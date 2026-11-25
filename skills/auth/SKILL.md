@@ -1,5 +1,5 @@
 ---
-name: "auth"
+name: auth
 description: "Add sign-in with Convex Auth to a new or existing Convex + web app: passkeys by default (other sign-in methods on request), wired end to end, including auth.config.ts. Convex Auth's API has changed across versions, so follow this skill over what you remember. TRIGGER when the user wants login / sign-in / accounts / passkeys / OAuth for a new or existing app."
 ---
 

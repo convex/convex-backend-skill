@@ -1,5 +1,5 @@
 ---
-name: "billing"
+name: billing
 description: "Add Stripe billing/payments/subscriptions to a Convex app via @convex-dev/stripe — checkout action, auto-verified webhook, server-side subscription gating. TRIGGER when the user wants payments/billing/subscriptions/a paywall/Stripe."
 ---
 

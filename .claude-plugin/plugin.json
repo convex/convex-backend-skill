@@ -3,24 +3,19 @@
   "name": "convex",
   "displayName": "Convex",
   "version": "1.18.0",
-  "description": "Bundled design + quickstart skills, code-writing and code-review subagents, lint guard + end-of-turn verify hooks, runtime-error and OCC-insights monitors, and MCP server for live deployment introspection. The quickstart scaffolds a running app from one sentence and builds it live LOCALLY, narrated in chat; the convex-reviewer subagent audits Convex functions for auth, validators, and performance. Build reactive, type-safe backends on one platform — schema, real-time, file storage, scheduled jobs, and AI agents.",
+  "description": "Convex backend skills and subagents for Claude Code: schema and function design, auth, billing, crons, workflows, AI agents, migrations, seeding, tests, bundle size and authorization audits, plus a convex-expert subagent that writes Convex code and a convex-reviewer subagent that audits it.",
   "author": {
     "name": "Convex",
     "url": "https://convex.dev"
   },
-  "homepage": "https://github.com/convex/convex-backend-skill",
-  "repository": "https://github.com/convex/convex-backend-skill",
+  "homepage": "https://github.com/get-convex/convex-backend-skill",
+  "repository": "https://github.com/get-convex/convex-backend-skill",
   "license": "Apache-2.0",
   "skills": "./skills/",
-  "commands": "./commands/",
   "agents": [
     "./agents/convex-expert.md",
     "./agents/convex-reviewer.md"
   ],
-  "mcpServers": "./.mcp.json",
-  "experimental": {
-    "monitors": "./monitors/monitors.json"
-  },
   "keywords": [
     "convex",
     "backend",
@@ -35,7 +30,7 @@
     "agent",
     "rag",
     "mobile",
-    "typescript",
-    "mcp"
-  ]
+    "typescript"
+  ],
+  "icon": "./.claude-plugin/icon.png"
 }

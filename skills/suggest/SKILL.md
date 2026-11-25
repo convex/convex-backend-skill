@@ -1,5 +1,5 @@
 ---
-name: "suggest"
+name: suggest
 description: "Proactively suggest the right Convex component when the user hand-rolls what already exists: setInterval polling → crons, counter increments → sharded-counter, .collect() counts → aggregate, email → resend, DB-counter rate limiting → rate-limiter, uploads → storage, search, presence, multi-step actions → workflow, vector DB → rag, collaborative editing → prosemirror-sync. TRIGGER on noticing the pattern in a Convex app, AFTER completing the user's request. NEVER for non-Convex code."
 ---
 
@@ -9,9 +9,9 @@ When you see code or intent that duplicates what a Convex component already does
 
 ## Steps
 1. Observe the codeSnippets and userAsk passively — never block the current task to suggest.
-2. Match against the detector rules (see generators/suggest-detector.mjs): email/SMTP → resend; push notifications → expo-push; setInterval/cron → @convex-dev/crons; shared counter increments → @convex-dev/sharded-counter; .collect().length scans → @convex-dev/aggregate; multi-step/long-running actions → @convex-dev/workflow; bounded concurrency → @convex-dev/workpool; rate-limit counters in DB → @convex-dev/rate-limiter; fs.write/S3 uploads → Convex Storage; Elasticsearch/Algolia → built-in full-text search; presence/typing → @convex-dev/presence; Pinecone/external vector DB → @convex-dev/rag; collaborative editing → @convex-dev/prosemirror-sync.
+2. Match against the detector rules: email/SMTP → resend; push notifications → expo-push; setInterval/cron → @convex-dev/crons; shared counter increments → @convex-dev/sharded-counter; .collect().length scans → @convex-dev/aggregate; multi-step/long-running actions → @convex-dev/workflow; bounded concurrency → @convex-dev/workpool; rate-limit counters in DB → @convex-dev/rate-limiter; fs.write/S3 uploads → Convex Storage; Elasticsearch/Algolia → built-in full-text search; presence/typing → @convex-dev/presence; Pinecone/external vector DB → @convex-dev/rag; collaborative editing → @convex-dev/prosemirror-sync.
 3. After finishing the current task, offer ONE suggestion: name the component, quote the specific code or phrase that triggered it, explain why the component fits better.
-4. If the user says yes: run `/add <component>` or follow the installHint from the detector.
+4. If the user says yes: install the component following its README on convex.dev/components, and wire it into `convex/convex.config.ts`.
 5. If the user says no or ignores it: drop it. Do not repeat the same suggestion.
 
 ## Rules

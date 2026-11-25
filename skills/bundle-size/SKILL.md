@@ -1,5 +1,5 @@
 ---
-name: "bundle-size"
+name: bundle-size
 description: "Debug and shrink a Convex deployment's bundle with @convex-dev/bundle-analyzer: find duplicate packages, \"use node\" code leaking into the Convex runtime, dev dependencies and test files in deployed code, then fix and measure before/after. TRIGGER on 'Total module size exceeded the unzipped maximum' (ModulesTooLarge), out-of-memory during push, slow \"use node\" cold starts, or 'why is my Convex bundle/push so big'. SKIP slow-query and spend questions."
 ---
 

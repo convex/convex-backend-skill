@@ -1,5 +1,5 @@
 ---
-name: "test"
+name: test
 description: "Generate tests for Convex functions with convex-test (queries/mutations/auth/scheduling, in-memory). TRIGGER when the user wants tests / a test suite for their Convex backend / 'how do I test this'."
 ---
 
