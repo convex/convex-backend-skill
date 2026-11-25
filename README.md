@@ -95,7 +95,7 @@ The plugin steers Claude toward the right Convex primitive for each task:
 
 ## Made by
 
-**Convex** — [convex.dev](https://convex.dev) — the open-source reactive database for fullstack apps. Issues and feature requests: [github.com/get-convex/convex-backend-skill/issues](https://github.com/get-convex/convex-backend-skill/issues).
+**Convex** — [convex.dev](https://convex.dev) — the open-source reactive database for fullstack apps. Issues and feature requests: [github.com/convex/convex-backend-skill/issues](https://github.com/convex/convex-backend-skill/issues).
 
 ## Privacy & data
 
