@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "convex": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/convex-mcp.mjs"]
+    }
+  }
+}

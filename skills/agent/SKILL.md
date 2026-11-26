@@ -1,5 +1,5 @@
 ---
-name: agent
+name: "agent"
 description: "Add an AI agent / chatbot / RAG backend on Convex with @convex-dev/agent (durable threads, messages, tools, vector search). TRIGGER when the user wants an AI assistant/chatbot/agent or 'chat with my docs' feature. Calls models through the Convex AI Gateway — no provider key to manage."
 ---
 

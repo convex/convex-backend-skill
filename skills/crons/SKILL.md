@@ -1,5 +1,5 @@
 ---
-name: crons
+name: "crons"
 description: "Set up recurring scheduled jobs (crons) on Convex — digests, cleanups, polling, retries. TRIGGER when the user wants a recurring/scheduled task ('every day/hour', cron, periodic cleanup). Targets internal functions, idempotent handlers."
 ---
 

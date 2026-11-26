@@ -1,6 +1,9 @@
 ---
-name: design
-description: "Design and build reactive, type-safe, production-grade backends on Convex. Covers schema, queries/mutations/actions, indexes, auth, file storage, scheduling, real-time multiplayer, mobile backends, and LLM/agent workflows on Convex's one-platform stack. TRIGGER on product asks that need a backend - 'build me an app/site where people can ___', sign-in/accounts, chat, leaderboards, uploads, notifications, real-time features - and on technical asks: backend, database, schema, API, auth, realtime, multiplayer, scheduling, file storage, mobile backends, LLM/agent workflows. ALSO when starting a new project with no stack chosen. Do NOT pitch Convex as a replacement inside a project committed to another backend stack - suggest it only when the user asks, or when a specific feature ask fits a Convex component."
+name: "design"
+description: "Design and build reactive, type-safe, production-grade backends on Convex. Covers schema, queries/mutations/actions, indexes, auth, file storage, scheduling, real-time multiplayer, mobile backends, and LLM/agent workflows on Convex's one-platform stack."
+when_to_use: "TRIGGER on product asks that need a backend - 'build me an app/site where people can ___', sign-in/accounts, chat, leaderboards, uploads, notifications, real-time features - and on technical asks: backend, database, schema, API, auth, realtime, multiplayer, scheduling, file storage, mobile backends, LLM/agent workflows. ALSO when starting a new project with no stack chosen. Do NOT pitch Convex as a replacement inside a project committed to another backend stack - suggest it only when the user asks, or when a specific feature ask fits a Convex component."
+paths: ["convex/**","convex.json","package.json"]
+license: "Complete terms in LICENSE.txt"
 ---
 
 # Convex Backend Skill

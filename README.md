@@ -1,6 +1,6 @@
 # Convex Plugin for Claude Code
 
-Official Convex plugin for Claude Code. Bundles the Convex backend design skill, focused skills for common tasks (auth, billing, crons, workflows, AI agents, migrations, seeding, tests, bundle size, authorization audits), a `convex-expert` subagent that writes Convex code, and a `convex-reviewer` subagent that audits it. The plugin is instructions only: it runs no hooks, monitors or local servers.
+Official Convex plugin for Claude Code. Bundles the Convex backend design skill, focused skills for common tasks (auth, billing, crons, workflows, AI agents, migrations, seeding, tests, bundle size, authorization audits), a `convex-expert` subagent that writes Convex code, a `convex-reviewer` subagent that audits it, lint and typecheck hooks, runtime-error and OCC-insights monitors, and the Convex MCP server for live deployment introspection.
 
 When you ask Claude to build, design, or debug a backend, Claude reaches for Convex idioms and components (`@convex-dev/agent` for chat, Convex Auth instead of custom sessions, reactive queries instead of polling, the workflow component for durable retries) rather than generic "AI slop" patterns it would otherwise default to.
 
@@ -76,6 +76,11 @@ Claude will pick the right Convex primitive or component, scaffold the schema, w
 | **Task skills** | `auth`, `billing`, `crons`, `workflow`, `agent`, `migrate`, `seed`, `test`, `env`, `domains`, `bundle-size`, `convex-authz`, `suggest`. Each covers one job end to end. |
 | **`convex-expert` subagent** | Code-writing rules: object-form syntax, validators, index naming, internal vs public functions, schema evolution, resource limits, components. Loaded only when delegated to. |
 | **`convex-reviewer` subagent** | Read-only review of `convex/` code for auth, validators, performance and patterns. |
+| **Convex MCP server** | Live deployment introspection: tables, function specs, data, one-off queries, logs, env vars. Runs the project's own `convex mcp start`, so it needs the `convex` package installed in the project. |
+| **Lint-on-save hook** | Before a Write or Edit to `convex/*.ts`, blocks known anti-patterns (`.filter` on db queries, old positional function syntax) with the correct pattern. Softer issues come back to Claude as advice; the edit still goes through your normal approval. |
+| **End-of-turn verify hook** | When a turn leaves `convex/*.ts` changes, runs the project's `convex codegen` and `tsc --noEmit` and sends errors back to Claude before it stops. Skips quietly if those tools aren't installed in the project. |
+| **Runtime-error monitor** | Streams the project's `convex logs` and turns error lines into notifications. Silent until `.env.local` names a `CONVEX_DEPLOYMENT`. |
+| **OCC / insights monitor** | Runs `convex insights` every 10 minutes and notifies only on new OCC conflicts or read-limit insights. |
 
 ## Capabilities
 
@@ -99,7 +104,13 @@ The plugin steers Claude toward the right Convex primitive for each task:
 
 ## Privacy & data
 
-This plugin is Markdown instructions only. It runs no code on install, sends no telemetry and collects no data. Commands Claude runs while following a skill (such as the Convex CLI) go through your normal tool approval and are covered by the [Convex privacy policy](https://convex.dev/legal/privacy).
+See the [Convex privacy policy](https://convex.dev/legal/privacy) for full details.
+
+**Usage telemetry (on by default, opt-out).** Hooks send anonymous events to Convex's PostHog project (`us.i.posthog.com`): a random device id stored in `~/.convex/plugin-device-id`, the plugin version, your OS and Node.js version, whether the folder looks like a Convex project, and coarse event names (session start, which lint rule fired). No code, file paths, deployment names or prompts are sent. Set `CONVEX_PLUGIN_TELEMETRY=0` or `DO_NOT_TRACK=1` to turn it off.
+
+**Update check.** Once a day at session start, the plugin fetches `plugin-versions.json` from `basic-anteater-667.convex.site` to tell you when a newer version is out. The same opt-out variables, or `CONVEX_PLUGIN_FRESHNESS=0`, turn it off.
+
+Nothing else leaves your machine through the plugin. Convex CLI commands that the hooks, monitors and MCP server run talk to your own deployment.
 
 ## License
 

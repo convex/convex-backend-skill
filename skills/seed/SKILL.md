@@ -1,5 +1,5 @@
 ---
-name: seed
+name: "seed"
 description: "Seed the Convex database with starter/fixture data or import an existing dataset (CSV/JSON). TRIGGER when the user wants sample/seed data or to import a dataset into Convex. Idempotent, schema-matching."
 ---
 

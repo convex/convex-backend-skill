@@ -1,5 +1,5 @@
 ---
-name: workflow
+name: "workflow"
 description: "Build a durable multi-step pipeline on Convex where each step runs in order and is retried independently on failure (transcribe→summarize→email, ETL, order fulfillment, any 'do A then B then C, retry each' job). Use @convex-dev/workflow — do NOT hand-roll a chain of scheduler calls or a custom jobs table. TRIGGER on multi-step / pipeline / 'retry each step' / long-running orchestration requests."
 ---
 

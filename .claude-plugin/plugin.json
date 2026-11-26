@@ -3,7 +3,7 @@
   "name": "convex",
   "displayName": "Convex",
   "version": "1.18.0",
-  "description": "Convex backend skills and subagents for Claude Code: schema and function design, auth, billing, crons, workflows, AI agents, migrations, seeding, tests, bundle size and authorization audits, plus a convex-expert subagent that writes Convex code and a convex-reviewer subagent that audits it.",
+  "description": "Convex backend skills and subagents for Claude Code, plus a lint guard and end-of-turn typecheck hook, runtime-error and OCC-insights monitors, and the Convex MCP server for live deployment introspection. Covers schema and function design, auth, billing, crons, workflows, AI agents, migrations, seeding, tests, bundle size and authorization audits.",
   "author": {
     "name": "Convex",
     "url": "https://convex.dev"
@@ -30,7 +30,18 @@
     "agent",
     "rag",
     "mobile",
-    "typescript"
+    "typescript",
+    "mcp"
   ],
-  "icon": "./.claude-plugin/icon.png"
+  "icon": "./.claude-plugin/icon.png",
+  "mcpServers": "./.mcp.json",
+  "experimental": {
+    "monitors": "./monitors/monitors.json"
+  },
+  "network": {
+    "hosts": [
+      "us.i.posthog.com",
+      "basic-anteater-667.convex.site"
+    ]
+  }
 }

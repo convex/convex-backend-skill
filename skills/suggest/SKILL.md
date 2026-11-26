@@ -1,5 +1,5 @@
 ---
-name: suggest
+name: "suggest"
 description: "Proactively suggest the right Convex component when the user hand-rolls what already exists: setInterval polling → crons, counter increments → sharded-counter, .collect() counts → aggregate, email → resend, DB-counter rate limiting → rate-limiter, uploads → storage, search, presence, multi-step actions → workflow, vector DB → rag, collaborative editing → prosemirror-sync. TRIGGER on noticing the pattern in a Convex app, AFTER completing the user's request. NEVER for non-Convex code."
 ---
 

@@ -1,6 +1,7 @@
 ---
-name: convex-authz
+name: "convex-authz"
 description: "Audit and harden a Convex app's authorization: identity-from-arg impersonation, missing per-document ownership checks, public queries leaking data by a client-supplied id, and writes into a parent/container the caller doesn't own. Scans for the 4 shapes, applies requireIdentity/requireOwner, verifies with tsc. TRIGGER on 'secure my app', 'audit auth/authz', 'who can access this data'. SKIP when there is no convex/ directory."
+license: "Apache-2.0"
 ---
 
 # Convex Authz Auditor/Hardener
