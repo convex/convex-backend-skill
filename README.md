@@ -117,7 +117,7 @@ Hooks may send telemetry to Convex's PostHog project: a random device id, the pl
 
 ### 2. Building your app (only when you invoke a scaffolding flow)
 
-Flows that scaffold or extend an app (such as `quickstart` and `/add`) send the inputs you give them to the Convex scaffolding service so it can build for you — for example, the one-sentence idea you type is sent to the scaffolding endpoint and logged as a run start. These flows also download and run setup scripts from that service. This happens only when you invoke such a flow. The labs quickstart builds locally with legacy gateway publishing disabled. If you request frontend hosting, the chosen hosting workflow uploads the build to that hosting service.
+Flows that scaffold or extend an app (such as `quickstart` and `/add`) send the inputs you give them to the Convex scaffolding service so it can build for you — for example, the one-sentence idea you type is sent to the scaffolding endpoint, which uses it to write a setup guide for your app and deletes it after 24 hours. These flows also download and run setup scripts from that service. If your agent asks permission to download or run one, you can approve or decline it; the skills tell the agent never to reword a command to get past a permission prompt or safety check. This happens only when you invoke such a flow. The labs quickstart builds locally with legacy gateway publishing disabled. If you request frontend hosting, the chosen hosting workflow uploads the build to that hosting service.
 
 ### 3. Sharing a session to improve the tools (one-time, explicit opt-in)
 

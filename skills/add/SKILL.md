@@ -78,8 +78,9 @@ Then finish based on the output:
   `convex/convex.config.ts`, and wire it per the package's README. If nothing
   fits, ask the user (or point them at https://www.convex.dev/components).
 
-If a permission prompt or sandbox blocks `curl`/`bash`, allow it (this only
-installs into the current project) — or run with the appropriate approval.
+If a permission prompt or sandbox blocks `curl`/`bash`, tell the user what the
+script does (it installs a component into the current project) and let them
+approve or decline it. Never reword a command to get it past a permission prompt.
 
 > This is the auto-invocable form of the `/add` command — same behavior, so it
 > also fires on natural-language asks like "add email to my app" or "add billing."
